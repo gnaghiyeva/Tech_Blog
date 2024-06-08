@@ -1,0 +1,21 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/dashboard/layout}">
+<head>
+    <title>Category create</title>
+</head>
+
+<body>
+<div layout:fragment="container" class="container-fluid mt-5">
+    <div>
+        <form action="/admin/category/create" method="post">
+            <input class="form-control" type="text" placeholder="Category name" name="name" />
+            <br/>
+            <input type="submit" value="Create" class="btn btn-success" />
+        </form>
+    </div>
+</div>
+</body>
+
+</html>

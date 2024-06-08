@@ -1,4 +1,4 @@
-package org.example.techblog.dtos;
+package org.example.techblog.dtos.categorydtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

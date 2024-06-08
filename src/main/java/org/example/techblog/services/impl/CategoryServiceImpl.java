@@ -1,7 +1,7 @@
 package org.example.techblog.services.impl;
 
-import org.example.techblog.dtos.CategoryCreateDto;
-import org.example.techblog.dtos.CategoryDto;
+import org.example.techblog.dtos.categorydtos.CategoryCreateDto;
+import org.example.techblog.dtos.categorydtos.CategoryDto;
 import org.example.techblog.models.Category;
 import org.example.techblog.repositories.CategoryRepository;
 import org.example.techblog.services.CategoryService;
