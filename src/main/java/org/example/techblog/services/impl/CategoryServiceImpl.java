@@ -1,7 +1,9 @@
 package org.example.techblog.services.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.techblog.dtos.categorydtos.CategoryCreateDto;
 import org.example.techblog.dtos.categorydtos.CategoryDto;
+import org.example.techblog.dtos.categorydtos.CategoryUpdateDto;
 import org.example.techblog.models.Category;
 import org.example.techblog.repositories.CategoryRepository;
 import org.example.techblog.services.CategoryService;
@@ -42,4 +44,39 @@ public class CategoryServiceImpl implements CategoryService {
 //        categoryRepository.delete(category);
         categoryRepository.save(category);
     }
+
+//    @Override
+//    public void updateCategory(CategoryUpdateDto categoryDto) {
+//        Category findCategory = categoryRepository.findById(categoryDto.getId()).orElseThrow();
+//        findCategory.setName(categoryDto.getName());
+//        categoryRepository.saveAndFlush(findCategory);
+//    }
+//
+//    @Override
+//    public CategoryUpdateDto findUpdatedCategory(Long id) {
+//        Category category = categoryRepository.findById(id).orElseThrow();
+//        CategoryUpdateDto categoryUpdateDto = modelMapper.map(category, CategoryUpdateDto.class);
+//        return categoryUpdateDto;
+//    }
+
+    @Override
+    public void updateCategory(CategoryUpdateDto categoryDto) {
+        if (categoryDto == null || categoryDto.getId() == null) {
+            throw new IllegalArgumentException("Category or Category ID cannot be null");
+        }
+
+        Category findCategory = categoryRepository.findById(categoryDto.getId()).orElseThrow(() -> new EntityNotFoundException("Category not found"));
+        findCategory.setName(categoryDto.getName());
+        categoryRepository.saveAndFlush(findCategory);
+    }
+
+    @Override
+    public CategoryUpdateDto findUpdatedCategory(Long id) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Category not found"));
+        CategoryUpdateDto categoryUpdateDto = modelMapper.map(category, CategoryUpdateDto.class);
+        return categoryUpdateDto;
+    }
+
+
+
 }

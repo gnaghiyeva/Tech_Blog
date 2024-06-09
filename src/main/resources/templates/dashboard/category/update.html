@@ -1,0 +1,24 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/dashboard/layout}">
+<head>
+    <title>Article Update </title>
+</head>
+
+<body>
+<div layout:fragment="container" class="container-fluid">
+    <div>
+        <form action="/admin/category/update" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input th:value="${category.name}" class="form-control" type="text" placeholder="name" name="name" />
+            </div>
+            <input th:value="${category.id}" class="form-control" type="hidden" placeholder="Title" name="id" />
+
+            <input type="submit" value="Update" class="btn btn-warning" />
+        </form>
+    </div>
+</div>
+</body>
+
+</html>
