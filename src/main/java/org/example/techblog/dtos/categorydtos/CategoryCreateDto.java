@@ -7,4 +7,5 @@ import lombok.Setter;
 @Getter
 public class CategoryCreateDto {
     private String name;
+    private Boolean isDeleted;
 }

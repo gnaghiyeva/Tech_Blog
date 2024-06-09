@@ -13,4 +13,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @Column(name = "isDeleted", columnDefinition = "false")
+    private Boolean isDeleted;
+
 }

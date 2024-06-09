@@ -27,10 +27,19 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> getAllCategories() {
-        List<CategoryDto> categories = categoryRepository.findAll()
+        List<CategoryDto> categoryDtoList = categoryRepository.findAll()
                 .stream()
+                .filter(x->x.getIsDeleted()==false)
                 .map(category -> modelMapper.map(category, CategoryDto.class))
                 .collect(Collectors.toList());
-        return categories;
+        return categoryDtoList;
+    }
+
+    @Override
+    public void removeCategory(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow();
+       category.setIsDeleted(true);
+//        categoryRepository.delete(category);
+        categoryRepository.save(category);
     }
 }
