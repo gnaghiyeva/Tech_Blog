@@ -19,11 +19,11 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/admin")
-    public String index() {
-
-        return "/dashboard/home";
-    }
+//    @GetMapping("/admin")
+//    public String index() {
+//
+//        return "/dashboard/home";
+//    }
 
     @GetMapping("/admin/category")
     public String category(Model model) {

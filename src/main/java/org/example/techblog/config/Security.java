@@ -47,3 +47,14 @@ public class Security {
     }
 
 }
+
+//        @Bean
+//        public UserDetailsService userDetailsService() throws Exception {
+//            // ensure the passwords are encoded properly
+//            User.UserBuilder users = User.withDefaultPasswordEncoder();
+//            InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+//            manager.createUser(users.username("gulnar.nagiyeva17@gmail.com").password("$2a$10$ZQlR2yOBh2uNdT/84ALVNOow8X0HJsUWnXgAqmkTtC6JvwzkaSuP6").roles("USER","ADMIN").build());
+//            manager.createUser(users.username("kismis@gmail.com").password("$2a$10$8pVwsA7q7IV5eE3K/u92LuD0eFWptORiP1hKQvgdRhetrx5nwoEaG").roles("USER","ADMIN").build());
+//            return manager;
+//        }
+

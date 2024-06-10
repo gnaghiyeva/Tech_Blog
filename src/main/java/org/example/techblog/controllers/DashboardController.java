@@ -15,7 +15,11 @@ import java.util.List;
 @Controller
 public class DashboardController {
 
+    @GetMapping("/admin")
+    public String index() {
 
+        return "/dashboard/home";
+    }
 
 
 }

@@ -30,4 +30,11 @@ public class AuthController {
         }
         return "redirect:login";
     }
+
+    @GetMapping("/auth/confirm")
+    public String confirm(String email, String token) {
+//        String a = "Salam";//menasi yoxdu elebele
+        boolean res =  userService.confirmEmail(email, token);
+        return "redirect:/login";
+    }
 }
