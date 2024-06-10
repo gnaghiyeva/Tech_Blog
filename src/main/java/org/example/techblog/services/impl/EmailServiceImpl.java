@@ -14,8 +14,8 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendConfirmationEmail(String email, String token) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("bonnie.kerluke@ethereal.email");
-        message.setTo("bonnie.kerluke@ethereal.email");
+        message.setFrom("gulnarnaghiyeva9@gmail.com");
+        message.setTo("gulnarnaghiyeva9@gmail.com");
         message.setSubject("Confirm Email");
         message.setText("salam");
         //http://localhost:9090/auth/confirm?email=gulnar@itbrains.edu.az&token=asjdfnsjkf

@@ -12,11 +12,11 @@ public class MailConfig {
     @Bean
     public JavaMailSender javaMailSender(){
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost("smtp.ethereal.email");
+        javaMailSender.setHost("smtp.gmail.com");
         javaMailSender.setPort(587);
 
-        javaMailSender.setUsername("bryana.kihn@ethereal.email");
-        javaMailSender.setPassword("p1W7XecAtJpZxVaUVE");
+        javaMailSender.setUsername("gulnarnaghiyeva9@gmail.com");
+        javaMailSender.setPassword("mifhohzvwyzohegj");
 
 
 

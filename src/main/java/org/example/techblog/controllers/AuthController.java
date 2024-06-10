@@ -1,5 +1,6 @@
 package org.example.techblog.controllers;
 
+import jakarta.mail.MessagingException;
 import org.example.techblog.dtos.authdtos.RegisterDto;
 import org.example.techblog.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(RegisterDto registerDto) {
+    public String register(RegisterDto registerDto){
         boolean res = userService.register(registerDto);
         if (res==false) {
             return "register";
