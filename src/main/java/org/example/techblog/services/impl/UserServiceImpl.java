@@ -1,6 +1,11 @@
 package org.example.techblog.services.impl;
 import org.example.techblog.dtos.authdtos.RegisterDto;
+import org.example.techblog.dtos.userdtos.UserAddRoleDto;
+import org.example.techblog.dtos.userdtos.UserDashboardListDto;
+import org.example.techblog.dtos.userdtos.UserDto;
+import org.example.techblog.models.Role;
 import org.example.techblog.models.UserEntity;
+import org.example.techblog.repositories.RoleRepository;
 import org.example.techblog.repositories.UserRepository;
 import org.example.techblog.services.EmailService;
 import org.example.techblog.services.UserService;
@@ -9,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public boolean register(RegisterDto register) {
@@ -53,6 +63,28 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<UserDashboardListDto> getDashboardUsers() {
+        List<UserEntity> findUsers = userRepository.findAll();
+        List<UserDashboardListDto> users = findUsers.stream().map(user->modelMapper.map(user, UserDashboardListDto.class)).collect(Collectors.toList());
+        return users;
+    }
+
+    @Override
+    public UserDto getUserById(Long id) {
+        UserEntity findUser = userRepository.findById(id).orElseThrow();
+        UserDto user = modelMapper.map(findUser, UserDto.class);
+        return user;
+    }
+
+    @Override
+    public void addRole(UserAddRoleDto userAddRole) {
+        UserEntity findUser = userRepository.findByEmail(userAddRole.getEmail());
+        List<Role> roles = roleRepository.findAll().stream().filter(x->x.getId() == userAddRole.getRoleId()).collect(Collectors.toList());
+        findUser.setRoles(roles);
+        userRepository.save(findUser);
     }
 }
 

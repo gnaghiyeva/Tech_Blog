@@ -1,0 +1,74 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/dashboard/layout}">
+<head>
+    <title>User Lists</title>
+</head>
+
+<body>
+<div layout:fragment="container" class="container-fluid mt-5">
+
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Users</h1>
+    <p class="mb-4">This table below lists all registered users.
+        You can see these features in action in the table below.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table  table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>email</th>
+                        <th>firstname</th>
+                        <th>lastname</th>
+                        <th>roles</th>
+                        <th>status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>id</th>
+                        <th>email</th>
+                        <th>firstname</th>
+                        <th>lastname</th>
+                        <th>roles</th>
+                        <th>status</th>
+                        <th>Action</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr th:each="user:${users}">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.firstname}"></td>
+                        <td th:text="${user.lastname}"></td>
+                        <td>
+                            <p th:each="role : ${user.roles}">
+                                <span th:text="${role.name}"></span>
+                            </p>
+                        </td>
+                        <td th:text="${user.emailConfirmed}"></td>
+                        <td>
+                            <a th:href="'/admin/users/role/'+${user.id}" class="btn btn-outline-warning btn-sm">Update</a>
+                            <button class="btn btn-outline-danger btn-sm">Delete</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
+
+

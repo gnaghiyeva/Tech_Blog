@@ -1,0 +1,35 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/dashboard/layout}">
+<head>
+    <title>User Roles</title>
+</head>
+
+<body>
+<div layout:fragment="container" class="container-fluid">
+    <div class="container">
+        <form method="post" action="/admin/users/addrole">
+            <div class="col-lg-5 m-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <input th:value="${user.email}" name="email" class="form-control" type="text" readonly/>
+                        </div>
+                        <div class="form-group">
+                            <select name="roleId" class="form-control">
+                                <option th:each="role:${roles}" th:text="${role.name}" th:value="${role.id}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input class="btn btn-outline-success" type="submit" value="Add role"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+</html>
