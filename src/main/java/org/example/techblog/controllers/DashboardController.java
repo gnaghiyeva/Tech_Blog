@@ -55,5 +55,12 @@ public class DashboardController {
         return "/dashboard/auth/user-list";
     }
 
+    @GetMapping("/admin/admin-info")
+    public String getAdminInfo(Model model) {
+        List<UserDashboardListDto> userList = userService.getDashboardUsers();
+        model.addAttribute("users",userList);
+        return "/dashboard/admin-info";
+    }
+
 
 }

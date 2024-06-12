@@ -1,0 +1,115 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/dashboard/layout}">
+<head>
+    <title>Admin info</title>
+</head>
+
+<body>
+<div layout:fragment="container" class="container-fluid mt-5">
+    <div class="card shadow-lg mx-2 card-profile-top">
+        <div class="card-body p-3">
+            <div class="row gx-4">
+                <div class="col-auto">
+                    <div class="avatar avatar-xl position-relative">
+                        <img th:src="@{/admin/img/team-5.jpg}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                    </div>
+                </div>
+                <div class="col-auto my-auto" th:each="user : ${users}">
+                    <div class="h-100" th:each="role : ${user.roles}">
+                        <div class="h-100" th:if="${role.name == 'ADMIN'}">
+                            <h5 class="mb-1" th:text="${user.firstname + ' ' + user.lastname}"></h5>
+                            <p class="mb-0 font-weight-bold text-sm" th:text="${role.name}"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid py-4" >
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex align-items-center">
+                            <p class="mb-0">About Profile</p>
+
+                        </div>
+                    </div>
+                    <div class="card-body" th:each="user : ${users}">
+                        <div th:each="role : ${user.roles}">
+                            <p class="text-uppercase text-sm" th:if="${role.name == 'ADMIN'}">User Information</p>
+                            <div class="row" th:if="${role.name == 'ADMIN'}">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">First name</label>
+                                        <input class="form-control" type="text" th:value="${user.firstname}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Last name</label>
+                                        <input class="form-control" type="text" th:value="${user.lastname}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Username</label>
+                                        <input class="form-control" type="text" th:value="${user.firstname}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Email address</label>
+                                        <input class="form-control" type="email" th:value="${user.email}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="horizontal dark">
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <footer class="footer pt-3  ">
+            <div class="container-fluid">
+                <div class="row align-items-center justify-content-lg-between">
+                    <div class="col-lg-6 mb-lg-0 mb-4">
+                        <div class="copyright text-center text-sm text-muted text-lg-start">
+                            © <script>
+                            document.write(new Date().getFullYear())
+                        </script>,
+                            made with <i class="fa fa-heart"></i> by
+                            <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
+                            for a better web.
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+</body>
+
+</html>
