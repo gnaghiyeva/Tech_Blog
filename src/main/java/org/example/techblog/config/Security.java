@@ -31,12 +31,8 @@ public class Security {
                         .loginPage("/login")
                         .failureUrl("/login")
                 )
-                .logout(logout -> logout.logoutSuccessUrl("/login")
-                )
-                .exceptionHandling(e->
-                        e.accessDeniedPage("/login"));
-
-        ;
+                .logout(logout -> logout.logoutSuccessUrl("/login"))
+                .exceptionHandling(e -> e.accessDeniedPage("/login"));
 
         return http.build();
     }

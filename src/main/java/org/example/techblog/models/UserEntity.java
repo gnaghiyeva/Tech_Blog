@@ -22,6 +22,9 @@ public class UserEntity {
     private Boolean emailConfirmed;
     private String confirmationToken;
 
+    @Column(name = "isDeleted", columnDefinition = "false")
+    private Boolean isDeleted;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
@@ -29,4 +32,8 @@ public class UserEntity {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "articles", nullable = true)
+    private List<Article> articles;
 }

@@ -1,5 +1,6 @@
 package org.example.techblog.services.impl;
 import org.example.techblog.dtos.authdtos.RegisterDto;
+import org.example.techblog.dtos.categorydtos.CategoryDto;
 import org.example.techblog.dtos.userdtos.UserAddRoleDto;
 import org.example.techblog.dtos.userdtos.UserDashboardListDto;
 import org.example.techblog.dtos.userdtos.UserDto;
@@ -85,6 +86,16 @@ public class UserServiceImpl implements UserService {
         List<Role> roles = roleRepository.findAll().stream().filter(x->x.getId() == userAddRole.getRoleId()).collect(Collectors.toList());
         findUser.setRoles(roles);
         userRepository.save(findUser);
+    }
+
+    @Override
+    public List<UserDto> getAllUsers() {
+        List<UserDto> userDtoList = userRepository.findAll()
+                .stream()
+                .filter(x->x.getIsDeleted()==false)
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
+        return userDtoList;
     }
 }
 

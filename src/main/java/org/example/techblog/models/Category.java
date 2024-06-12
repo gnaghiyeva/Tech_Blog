@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -17,4 +19,7 @@ public class Category {
     @Column(name = "isDeleted", columnDefinition = "false")
     private Boolean isDeleted;
 
+    @OneToMany
+    @JoinColumn(name = "articles", nullable = true)
+    private List<Article> articles;
 }

@@ -1,6 +1,7 @@
 package org.example.techblog.services;
 
 import org.example.techblog.dtos.authdtos.RegisterDto;
+import org.example.techblog.dtos.categorydtos.CategoryDto;
 import org.example.techblog.dtos.userdtos.UserAddRoleDto;
 import org.example.techblog.dtos.userdtos.UserDashboardListDto;
 import org.example.techblog.dtos.userdtos.UserDto;
@@ -16,4 +17,5 @@ public interface UserService {
 
     UserDto getUserById(Long id);
     void addRole(UserAddRoleDto userAddRole);
+    List<UserDto> getAllUsers();
 }
