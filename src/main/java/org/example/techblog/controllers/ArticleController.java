@@ -2,8 +2,10 @@ package org.example.techblog.controllers;
 
 import org.example.techblog.dtos.articledtos.ArticleCreateDto;
 import org.example.techblog.dtos.articledtos.ArticleDto;
+import org.example.techblog.dtos.articledtos.ArticleUpdateDto;
 import org.example.techblog.dtos.categorydtos.CategoryDto;
 import org.example.techblog.dtos.userdtos.UserDto;
+import org.example.techblog.models.Article;
 import org.example.techblog.services.ArticleService;
 import org.example.techblog.services.CategoryService;
 import org.example.techblog.services.UserService;
@@ -12,10 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -101,4 +100,52 @@ public class ArticleController {
         articleService.addArticle(articleDto);
         return "redirect:/admin/article";
     }
+
+
+    @GetMapping("/admin/article/update/{id}")
+    public String updateArticle(@ModelAttribute @PathVariable Long id, Model model){
+        ArticleUpdateDto articleUpdateDto = articleService.findUpdatedArticle(id);
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
+        model.addAttribute("article", articleUpdateDto);
+        return "dashboard/article/update";
+    }
+
+    @PostMapping("/admin/article/update")
+    public String updateArticle(@ModelAttribute ArticleUpdateDto articleDto,
+                                @RequestParam("image") MultipartFile image) throws IOException {
+
+        if (!image.isEmpty()) {
+
+            Path sourceUploadDirectory = getSourceUploadDirectory();
+            Path targetUploadDirectory = getTargetUploadDirectory();
+
+            if (!Files.exists(sourceUploadDirectory)) {
+                Files.createDirectories(sourceUploadDirectory);
+            }
+
+            if (!Files.exists(targetUploadDirectory)) {
+                Files.createDirectories(targetUploadDirectory);
+            }
+
+            UUID rand = UUID.randomUUID();
+            String filename = rand + image.getOriginalFilename();
+            articleDto.setPhotoUrl("/uploads/" + filename);
+
+            Files.copy(image.getInputStream(), sourceUploadDirectory.resolve(filename));
+            Files.copy(image.getInputStream(), targetUploadDirectory.resolve(filename));
+        } else {
+            ArticleDto existingArticle = articleService.getArticleById(articleDto.getId());
+            if (existingArticle != null) {
+                articleDto.setPhotoUrl(existingArticle.getPhotoUrl());
+            }
+        }
+
+        articleService.updateArticle(articleDto);
+
+        // Yönlendirme yap
+        return "redirect:/admin/article";
+    }
+
+
 }

@@ -65,7 +65,7 @@
                         <td style="display: flex; justify-content: space-around; align-items: center">
 <!--                            <a class="btn btn-outline-warning ">Update</a>-->
 <!--                            <button class="btn btn-outline-danger ">Delete</button>-->
-                           <a href="#" style="margin-right: 10px;" ><i class="fa-solid fa-pen"></i></a>
+                           <a th:href="'/admin/article/update/'+${article.id}"  style="margin-right: 10px;" ><i class="fa-solid fa-pen"></i></a>
                            <a href="#"><i class="fa-solid fa-trash"></i></a>
                         </td>
                     </tr>

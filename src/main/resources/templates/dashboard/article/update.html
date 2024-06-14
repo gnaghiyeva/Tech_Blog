@@ -1,0 +1,39 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/dashboard/layout}">
+<head>
+    <title>Article Update </title>
+</head>
+
+<body>
+<div layout:fragment="container" class="container-fluid">
+    <div>
+        <form action="/admin/article/update" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input th:value="${article.title}" class="form-control" type="text" placeholder="Title" name="title" />
+            </div>
+            <input th:value="${article.id}" class="form-control" type="hidden" placeholder="Title" name="id" />
+            <div class="form-group">
+                <input th:value="${article.subTitle}" class="form-control" type="text" placeholder="subtitle" name="subTitle" />
+            </div>
+            <div class="form-group">
+                <textarea th:text="${article.description}" id="myInput" class="form-control" type="text" placeholder="description" name="description" ></textarea>
+            </div>
+            <div class="form-group">
+                <!--                <input th:value="${article.photoUrl}" class="form-control" type="file" placeholder="photoUrl" name="photoUrl" accept="image/*" />-->
+                <input class="form-control" type="file" placeholder="Photo" name="image" accept="image/*" />
+            </div>
+            <div class="form-group">
+                <select name="categoryId"  class="form-control" >
+                    <option th:selected="${article.categoryId}==${category.id}" th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
+                </select>
+            </div>
+
+            <input type="submit" value="Update" class="btn btn-warning" />
+        </form>
+    </div>
+</div>
+</body>
+
+</html>
