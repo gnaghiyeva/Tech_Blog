@@ -8,14 +8,17 @@ import org.example.techblog.services.ArticleService;
 import org.example.techblog.services.CategoryService;
 import org.example.techblog.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,9 +38,22 @@ public class ArticleController {
     @Autowired
     private UserService userService;
 
-    final String uploadLocation = getClass().getClassLoader().getResource("static/uploads").toString();
-    final Path uploadDirectory = Paths.get(uploadLocation.substring(6, uploadLocation.length()) );
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
+    private Path getSourceUploadDirectory() {
+        return Paths.get("src/main/resources/static/uploads");
+    }
+
+    private Path getTargetUploadDirectory() {
+        return Paths.get("target/classes/static/uploads");
+    }
+
+//    final String uploadLocation = getClass().getClassLoader().getResource("static/uploads").toString();
+//    final Path uploadDirectory = Paths.get(uploadLocation.substring(8, uploadLocation.length()) );
+
+//    final String uploadLocation = "src/main/resources/static/uploads";
+//    final Path uploadDirectory = Paths.get(uploadLocation);
 
     @GetMapping("/admin/article")
     public String articleGet(Model model) {
@@ -62,15 +78,26 @@ public class ArticleController {
 //        String uploadLocation = "src/main/resources/static/uploads";
 //        Path uploadDirectory = Paths.get(uploadLocation);
 
-        if (!Files.exists(uploadDirectory)) {
-            Files.createDirectories(uploadDirectory);
+        Path sourceUploadDirectory = getSourceUploadDirectory();
+        Path targetUploadDirectory = getTargetUploadDirectory();
+
+        if (!Files.exists(sourceUploadDirectory)) {
+            Files.createDirectories(sourceUploadDirectory);
+        }
+
+        if (!Files.exists(targetUploadDirectory)) {
+            Files.createDirectories(targetUploadDirectory);
         }
 
         UUID rand = UUID.randomUUID();
         String filename = rand + image.getOriginalFilename();
         articleDto.setPhotoUrl("/uploads/" + filename);
 
-        Files.copy(image.getInputStream(), uploadDirectory.resolve(filename));
+        // Save to source directory
+        Files.copy(image.getInputStream(), sourceUploadDirectory.resolve(filename));
+        // Save to target directory
+        Files.copy(image.getInputStream(), targetUploadDirectory.resolve(filename));
+
         articleService.addArticle(articleDto);
         return "redirect:/admin/article";
     }
