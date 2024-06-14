@@ -8,7 +8,7 @@
 
 <body>
 <div layout:fragment="container" class="container-fluid">
-    <div>
+    <div class="mt-5">
         <form action="/admin/article/update" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <input th:value="${article.title}" class="form-control" type="text" placeholder="Title" name="title" />
