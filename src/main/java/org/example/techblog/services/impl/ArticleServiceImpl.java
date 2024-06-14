@@ -64,6 +64,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         article.setCategory(category);
         article.setUser(user);
+        article.setIsDeleted(false);
 
         articleRepository.save(article);
     }
@@ -71,6 +72,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<ArticleDto> getArticles() {
         List<ArticleDto> articleDtoList = articleRepository.findAll().stream()
+                .filter(article -> !article.getIsDeleted()) // Sadece isDeleted false olanları filtrele
                 .map(article -> modelMapper.map(article, ArticleDto.class))
                 .collect(Collectors.toList());
         return articleDtoList;
@@ -128,4 +130,32 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleDto articleDto = modelMapper.map(article, ArticleDto.class);
         return articleDto;
     }
+
+    public void removeArticle(Long articleId) {
+        Article article = articleRepository.findById(articleId).orElseThrow();
+
+        String photoUrl = article.getPhotoUrl();
+        if (photoUrl != null && !photoUrl.isEmpty()) {
+            // photoUrl değeri /uploads/filename.ext ise, bu kısmı kesip sadece filename.ext olarak alıyoruz
+            String fileName = photoUrl.substring(photoUrl.lastIndexOf("/") + 1);
+            File imageFile = new File("src/main/resources/static/uploads/" + fileName);
+
+            if (imageFile.exists()) {
+                if (imageFile.delete()) {
+                    System.out.println("Fotoğraf dosyası başarıyla silindi: " + photoUrl);
+                } else {
+                    System.out.println("Fotoğraf dosyası silinemedi: " + photoUrl);
+                }
+            } else {
+                System.out.println("Fotoğraf dosyası bulunamadı: " + photoUrl);
+            }
+        } else {
+            System.out.println("Fotoğraf URL'si geçersiz: " + photoUrl);
+        }
+
+        article.setIsDeleted(true);
+        articleRepository.save(article);
+    }
+
+
 }

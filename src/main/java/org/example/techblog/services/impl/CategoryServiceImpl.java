@@ -4,7 +4,9 @@ import jakarta.persistence.EntityNotFoundException;
 import org.example.techblog.dtos.categorydtos.CategoryCreateDto;
 import org.example.techblog.dtos.categorydtos.CategoryDto;
 import org.example.techblog.dtos.categorydtos.CategoryUpdateDto;
+import org.example.techblog.models.Article;
 import org.example.techblog.models.Category;
+import org.example.techblog.repositories.ArticleRepository;
 import org.example.techblog.repositories.CategoryRepository;
 import org.example.techblog.services.CategoryService;
 import org.modelmapper.ModelMapper;
@@ -20,6 +22,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired(required = true)
     private ModelMapper modelMapper;
+
+    @Autowired
+    private ArticleRepository articleRepository;
 
     @Override
     public void add(CategoryCreateDto categoryCreateDto) {
@@ -40,10 +45,16 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void removeCategory(Long categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow();
-       category.setIsDeleted(true);
+        category.setIsDeleted(true);
 //        categoryRepository.delete(category);
+        List<Article> articles = articleRepository.findByCategoryId(categoryId);
+        for (Article article : articles) {
+            article.setIsDeleted(true);
+            articleRepository.save(article);
+        }
         categoryRepository.save(category);
     }
+
 
 //    @Override
 //    public void updateCategory(CategoryUpdateDto categoryDto) {

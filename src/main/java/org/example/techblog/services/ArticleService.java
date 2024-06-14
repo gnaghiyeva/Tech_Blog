@@ -15,4 +15,5 @@ public interface ArticleService {
 
     ArticleUpdateDto findUpdatedArticle(Long id);
     ArticleDto getArticleById(Long id);
+    void removeArticle(Long articleId);
 }

@@ -143,7 +143,12 @@ public class ArticleController {
 
         articleService.updateArticle(articleDto);
 
-        // Yönlendirme yap
+        return "redirect:/admin/article";
+    }
+
+    @GetMapping("/admin/article/remove/{id}")
+    public String removeArticle(@ModelAttribute @PathVariable Long id){
+        articleService.removeArticle(id);
         return "redirect:/admin/article";
     }
 
