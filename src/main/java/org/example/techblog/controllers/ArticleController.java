@@ -13,8 +13,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
+
 @Controller
 public class ArticleController {
 
@@ -27,9 +35,12 @@ public class ArticleController {
     @Autowired
     private UserService userService;
 
+    final String uploadLocation = getClass().getClassLoader().getResource("static/uploads").toString();
+    final Path uploadDirectory = Paths.get(uploadLocation.substring(6, uploadLocation.length()) );
+
+
     @GetMapping("/admin/article")
-    public String articleGet(Model model)
-    {
+    public String articleGet(Model model) {
         List<ArticleDto> articles = articleService.getArticles();
         model.addAttribute("articles", articles);
         return "/dashboard/article/article";
@@ -46,9 +57,21 @@ public class ArticleController {
     }
 
     @PostMapping("/admin/article/create")
-    public String articleCreate(@ModelAttribute ArticleCreateDto articleDto) {
+    public String articleCreate(@ModelAttribute ArticleCreateDto articleDto, @RequestParam("image") MultipartFile image) throws IOException {
+        // src/main/resources/static/uploads dizinine erişim sağlıyoruz
+//        String uploadLocation = "src/main/resources/static/uploads";
+//        Path uploadDirectory = Paths.get(uploadLocation);
+
+        if (!Files.exists(uploadDirectory)) {
+            Files.createDirectories(uploadDirectory);
+        }
+
+        UUID rand = UUID.randomUUID();
+        String filename = rand + image.getOriginalFilename();
+        articleDto.setPhotoUrl("/uploads/" + filename);
+
+        Files.copy(image.getInputStream(), uploadDirectory.resolve(filename));
         articleService.addArticle(articleDto);
         return "redirect:/admin/article";
     }
-
 }

@@ -62,6 +62,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         article.setCategory(category);
         article.setUser(user);
+
         articleRepository.save(article);
     }
 
