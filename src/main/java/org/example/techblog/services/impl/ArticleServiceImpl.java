@@ -2,6 +2,7 @@ package org.example.techblog.services.impl;
 
 import org.example.techblog.dtos.articledtos.ArticleCreateDto;
 import org.example.techblog.dtos.articledtos.ArticleDto;
+import org.example.techblog.dtos.articledtos.ArticleHomeDto;
 import org.example.techblog.dtos.articledtos.ArticleUpdateDto;
 import org.example.techblog.models.Article;
 import org.example.techblog.models.Category;
@@ -156,6 +157,22 @@ public class ArticleServiceImpl implements ArticleService {
         article.setIsDeleted(true);
         articleRepository.save(article);
     }
+
+    @Override
+    public List<ArticleHomeDto> getHomeArticles() {
+        List<ArticleHomeDto> articleDtoList = articleRepository.findAll().stream()
+                .filter(x->x.getIsDeleted() == false)
+                .map(article -> modelMapper.map(article, ArticleHomeDto.class))
+                .collect(Collectors.toList());
+        return articleDtoList;
+    }
+//@Override
+//public List<ArticleHomeDto> getHomeArticles() {
+//    List<ArticleHomeDto> articleDtoList = articleRepository.findAll().stream()
+//            .map(article -> modelMapper.map(article, ArticleHomeDto.class))
+//            .collect(Collectors.toList());
+//    return articleDtoList;
+//}
 
 
 }
