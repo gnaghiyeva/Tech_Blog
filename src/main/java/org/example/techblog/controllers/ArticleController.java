@@ -150,11 +150,13 @@ public class ArticleController {
         return "redirect:/admin/article";
     }
 
-    @GetMapping("/mustafa/{id}/{seoUrl}")
-    public String detail(@PathVariable Long id, Model model) {
+    @GetMapping("detail/{id}/{seoUrl}")
+    public String detail(@PathVariable Long id, Model model)
+    {
         ArticleDetailDto articleDetail = articleService.articleDetail(id);
-        model.addAttribute("article", articleDetail);
-        return "mustafa";
+        model.addAttribute("article",articleDetail);
+//        return "dashboard/article/detail";
+        return "detail";
     }
 
 

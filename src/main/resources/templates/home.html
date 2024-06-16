@@ -29,7 +29,7 @@
                                   </div><!-- end col -->
 
                                   <div class="blog-meta big-meta col-md-8">
-                                      <h4><a th:href="'/mustafa/'+${article.id}+'/'+ ${article.seoUrl}" title="" th:text="${article.title}"></a></h4>
+                                      <h4><a th:href="'/detail/'+${article.id}+'/'+ ${article.seoUrl}" title="" th:text="${article.title}"></a></h4>
                                       <p th:text="${article.subTitle}"></p>
                                       <small class="firstsmall"><a class="bg-orange" href="tech-category-01.html" title="" th:text="${article.category.name}"></a></small>
                                       <small><a href="tech-single.html" title="" th:text="${article.createdDate}"></a></small>
