@@ -25,6 +25,8 @@ public class Article {
     @Column(name = "isDeleted", columnDefinition = "false")
     private Boolean isDeleted;
 
+    private String seoUrl;
+
     @ManyToOne
     private Category category;
 

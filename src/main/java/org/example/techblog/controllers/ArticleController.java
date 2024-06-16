@@ -1,11 +1,11 @@
 package org.example.techblog.controllers;
 
 import org.example.techblog.dtos.articledtos.ArticleCreateDto;
+import org.example.techblog.dtos.articledtos.ArticleDetailDto;
 import org.example.techblog.dtos.articledtos.ArticleDto;
 import org.example.techblog.dtos.articledtos.ArticleUpdateDto;
 import org.example.techblog.dtos.categorydtos.CategoryDto;
 import org.example.techblog.dtos.userdtos.UserDto;
-import org.example.techblog.models.Article;
 import org.example.techblog.services.ArticleService;
 import org.example.techblog.services.CategoryService;
 import org.example.techblog.services.UserService;
@@ -13,11 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -150,6 +148,13 @@ public class ArticleController {
     public String removeArticle(@ModelAttribute @PathVariable Long id){
         articleService.removeArticle(id);
         return "redirect:/admin/article";
+    }
+
+    @GetMapping("/mustafa/{id}/{seoUrl}")
+    public String detail(@PathVariable Long id, Model model) {
+        ArticleDetailDto articleDetail = articleService.articleDetail(id);
+        model.addAttribute("article", articleDetail);
+        return "mustafa";
     }
 
 

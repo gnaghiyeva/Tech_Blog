@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Article Detail</title>
+</head>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+    <section layout:fragment="body" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 th:text="${article.title}">Title</h1>
+                    <h2 th:text="${article.subTitle}">SubTitle</h2>
+                    <img th:src="@{${article.photoUrl}}" alt="Article Image" class="img-fluid">
+                    <p th:text="${article.description}">Description</p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Article Details</h5>
+                            <p class="card-text">Views: <span th:text="${article.viewCount}">0</span></p>
+                            <p class="card-text">Created Date: <span th:text="${#dates.format(article.createdDate, 'dd-MM-yyyy')}">01-01-2020</span></p>
+                            <p class="card-text">Updated Date: <span th:text="${#dates.format(article.updatedDate, 'dd-MM-yyyy')}">01-01-2020</span></p>
+                            <p class="card-text">Category: <span th:text="${article.category.name}">Category</span></p>
+                            <p class="card-text">Author: <span th:text="${article.user.username}">Author</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

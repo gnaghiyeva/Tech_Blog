@@ -1,9 +1,7 @@
 package org.example.techblog.services.impl;
 
-import org.example.techblog.dtos.articledtos.ArticleCreateDto;
-import org.example.techblog.dtos.articledtos.ArticleDto;
-import org.example.techblog.dtos.articledtos.ArticleHomeDto;
-import org.example.techblog.dtos.articledtos.ArticleUpdateDto;
+import org.example.techblog.dtos.articledtos.*;
+import org.example.techblog.helpers.SeoHelper;
 import org.example.techblog.models.Article;
 import org.example.techblog.models.Category;
 import org.example.techblog.models.UserEntity;
@@ -64,7 +62,12 @@ public class ArticleServiceImpl implements ArticleService {
         article.setUpdatedDate(new Date());
 
         article.setCategory(category);
+
+
         article.setUser(user);
+        SeoHelper seoHelper = new SeoHelper();
+        article.setSeoUrl(seoHelper.seoUrlHelper(articleDto.getTitle()));
+
         article.setIsDeleted(false);
 
         articleRepository.save(article);
@@ -113,6 +116,8 @@ public class ArticleServiceImpl implements ArticleService {
         findArticle.setPhotoUrl(articleDto.getPhotoUrl());
         findArticle.setCategory(category);
         findArticle.setUser(user);
+        SeoHelper seoHelper = new SeoHelper();
+        findArticle.setSeoUrl(seoHelper.seoUrlHelper(articleDto.getTitle()));
         articleRepository.saveAndFlush(findArticle);
     }
 
@@ -165,6 +170,13 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(article -> modelMapper.map(article, ArticleHomeDto.class))
                 .collect(Collectors.toList());
         return articleDtoList;
+    }
+
+    @Override
+    public ArticleDetailDto articleDetail(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow();
+        ArticleDetailDto articleUpdateDto = modelMapper.map(article, ArticleDetailDto.class);
+        return articleUpdateDto;
     }
 //@Override
 //public List<ArticleHomeDto> getHomeArticles() {

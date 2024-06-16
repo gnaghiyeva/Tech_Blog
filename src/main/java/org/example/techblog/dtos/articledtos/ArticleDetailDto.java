@@ -9,14 +9,15 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class ArticleHomeDto {
+public class ArticleDetailDto {
     private Long id;
-    private String title;//*
+    private String title;
     private String subTitle;
+    private String description;
     private String photoUrl;
     private Date createdDate;
+    private Date updatedDate;
     private int viewCount;
-    private String seoUrl;
     private CategoryDto category;
     private UserDto user;
 }
