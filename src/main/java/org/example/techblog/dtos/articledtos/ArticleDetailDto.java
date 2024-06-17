@@ -15,6 +15,7 @@ public class ArticleDetailDto {
     private String subTitle;
     private String description;
     private String photoUrl;
+    private String videoUrl;
     private Date createdDate;
     private Date updatedDate;
     private int viewCount;

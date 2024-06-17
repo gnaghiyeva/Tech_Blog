@@ -14,6 +14,7 @@ public class ArticleHomeDto {
     private String title;//*
     private String subTitle;
     private String photoUrl;
+    private String videoUrl;
     private Date createdDate;
     private int viewCount;
     private String seoUrl;

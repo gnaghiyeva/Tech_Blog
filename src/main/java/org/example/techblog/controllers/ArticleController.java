@@ -22,7 +22,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
-
 @Controller
 public class ArticleController {
 
@@ -35,15 +34,26 @@ public class ArticleController {
     @Autowired
     private UserService userService;
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+    @Value("${image.upload-dir}")
+    private String uploadDirImage;
 
-    private Path getSourceUploadDirectory() {
+    @Value("${video.upload-dir}")
+    private String uploadDirVideo;
+
+    private Path getSourceUploadDirectoryImage() {
         return Paths.get("src/main/resources/static/uploads");
     }
 
-    private Path getTargetUploadDirectory() {
+    private Path getTargetUploadDirectoryImage() {
         return Paths.get("target/classes/static/uploads");
+    }
+
+    private Path getSourceUploadDirectoryVideo() {
+        return Paths.get("src/main/resources/static/videos");
+    }
+
+    private Path getTargetUploadDirectoryVideo() {
+        return Paths.get("target/classes/static/videos");
     }
 
 //    final String uploadLocation = getClass().getClassLoader().getResource("static/uploads").toString();
@@ -70,30 +80,46 @@ public class ArticleController {
     }
 
     @PostMapping("/admin/article/create")
-    public String articleCreate(@ModelAttribute ArticleCreateDto articleDto, @RequestParam("image") MultipartFile image) throws IOException {
-        // src/main/resources/static/uploads dizinine erişim sağlıyoruz
-//        String uploadLocation = "src/main/resources/static/uploads";
-//        Path uploadDirectory = Paths.get(uploadLocation);
+    public String articleCreate(@ModelAttribute ArticleCreateDto articleDto, @RequestParam("image") MultipartFile image,   @RequestParam("video") MultipartFile video) throws IOException {
 
-        Path sourceUploadDirectory = getSourceUploadDirectory();
-        Path targetUploadDirectory = getTargetUploadDirectory();
+        Path sourceUploadDirectoryImage = getSourceUploadDirectoryImage();
+        Path targetUploadDirectoryImage = getTargetUploadDirectoryImage();
 
-        if (!Files.exists(sourceUploadDirectory)) {
-            Files.createDirectories(sourceUploadDirectory);
+        Path sourceUploadDirectoryVideo =getSourceUploadDirectoryVideo();
+        Path targetUploadDirectoryVideo = getTargetUploadDirectoryVideo();
+
+
+        if (!Files.exists(sourceUploadDirectoryImage)) {
+            Files.createDirectories(sourceUploadDirectoryImage);
         }
 
-        if (!Files.exists(targetUploadDirectory)) {
-            Files.createDirectories(targetUploadDirectory);
+        if (!Files.exists(targetUploadDirectoryImage)) {
+            Files.createDirectories(targetUploadDirectoryImage);
+        }
+
+        if (!Files.exists(sourceUploadDirectoryVideo)) {
+            Files.createDirectories(sourceUploadDirectoryVideo);
+        }
+
+        if (!Files.exists(targetUploadDirectoryVideo)) {
+            Files.createDirectories(targetUploadDirectoryVideo);
         }
 
         UUID rand = UUID.randomUUID();
-        String filename = rand + image.getOriginalFilename();
-        articleDto.setPhotoUrl("/uploads/" + filename);
+
+        String imagefilename = rand + image.getOriginalFilename();
+        String videoFilename = rand + video.getOriginalFilename();
+
+        articleDto.setPhotoUrl("/uploads/" + imagefilename);
+        articleDto.setVideoUrl("/videos/" + videoFilename);
 
         // Save to source directory
-        Files.copy(image.getInputStream(), sourceUploadDirectory.resolve(filename));
+        Files.copy(image.getInputStream(), sourceUploadDirectoryImage.resolve(imagefilename));
+        Files.copy(video.getInputStream(), sourceUploadDirectoryVideo.resolve(videoFilename));
+
         // Save to target directory
-        Files.copy(image.getInputStream(), targetUploadDirectory.resolve(filename));
+        Files.copy(image.getInputStream(), targetUploadDirectoryImage.resolve(imagefilename));
+        Files.copy(video.getInputStream(), targetUploadDirectoryVideo.resolve(videoFilename));
 
         articleService.addArticle(articleDto);
         return "redirect:/admin/article";
@@ -111,40 +137,85 @@ public class ArticleController {
 
     @PostMapping("/admin/article/update")
     public String updateArticle(@ModelAttribute ArticleUpdateDto articleDto,
-                                @RequestParam("image") MultipartFile image) throws IOException {
+                                @RequestParam("image") MultipartFile image,
+                                @RequestParam("video") MultipartFile video) throws IOException {
+
+        Path sourceUploadDirectoryImage = getSourceUploadDirectoryImage();
+        Path targetUploadDirectoryImage = getTargetUploadDirectoryImage();
+        Path sourceUploadDirectoryVideo = getSourceUploadDirectoryVideo();
+        Path targetUploadDirectoryVideo = getTargetUploadDirectoryVideo();
+
+        // Ensure directories exist
+        if (!Files.exists(sourceUploadDirectoryImage)) {
+            Files.createDirectories(sourceUploadDirectoryImage);
+        }
+        if (!Files.exists(targetUploadDirectoryImage)) {
+            Files.createDirectories(targetUploadDirectoryImage);
+        }
+        if (!Files.exists(sourceUploadDirectoryVideo)) {
+            Files.createDirectories(sourceUploadDirectoryVideo);
+        }
+        if (!Files.exists(targetUploadDirectoryVideo)) {
+            Files.createDirectories(targetUploadDirectoryVideo);
+        }
+
+        ArticleDto existingArticle = articleService.getArticleById(articleDto.getId());
 
         if (!image.isEmpty()) {
-
-            Path sourceUploadDirectory = getSourceUploadDirectory();
-            Path targetUploadDirectory = getTargetUploadDirectory();
-
-            if (!Files.exists(sourceUploadDirectory)) {
-                Files.createDirectories(sourceUploadDirectory);
-            }
-
-            if (!Files.exists(targetUploadDirectory)) {
-                Files.createDirectories(targetUploadDirectory);
-            }
-
+            // Handle image update
             UUID rand = UUID.randomUUID();
-            String filename = rand + image.getOriginalFilename();
-            articleDto.setPhotoUrl("/uploads/" + filename);
+            String imageFilename = rand + image.getOriginalFilename();
 
-            Files.copy(image.getInputStream(), sourceUploadDirectory.resolve(filename));
-            Files.copy(image.getInputStream(), targetUploadDirectory.resolve(filename));
+            // Delete existing image if present
+            if (existingArticle != null && existingArticle.getPhotoUrl() != null) {
+                Path previousImagePathSource = sourceUploadDirectoryImage.resolve(existingArticle.getPhotoUrl().substring(existingArticle.getPhotoUrl().lastIndexOf("/") + 1));
+                Path previousImagePathTarget = targetUploadDirectoryImage.resolve(existingArticle.getPhotoUrl().substring(existingArticle.getPhotoUrl().lastIndexOf("/") + 1));
+                Files.deleteIfExists(previousImagePathSource);
+                Files.deleteIfExists(previousImagePathTarget);
+            }
+
+            // Set new image URL
+            articleDto.setPhotoUrl("/uploads/" + imageFilename);
+
+            // Save new image file
+            Files.copy(image.getInputStream(), sourceUploadDirectoryImage.resolve(imageFilename));
+            Files.copy(image.getInputStream(), targetUploadDirectoryImage.resolve(imageFilename));
         } else {
-            ArticleDto existingArticle = articleService.getArticleById(articleDto.getId());
+            // Keep the existing image URL if not updated
             if (existingArticle != null) {
                 articleDto.setPhotoUrl(existingArticle.getPhotoUrl());
             }
         }
 
+        if (!video.isEmpty()) {
+            // Handle video update
+            UUID rand = UUID.randomUUID();
+            String videoFilename = rand + video.getOriginalFilename();
+
+            // Delete existing video if present
+            if (existingArticle != null && existingArticle.getVideoUrl() != null) {
+                Path previousVideoPathSource = sourceUploadDirectoryVideo.resolve(existingArticle.getVideoUrl().substring(existingArticle.getVideoUrl().lastIndexOf("/") + 1));
+                Path previousVideoPathTarget = targetUploadDirectoryVideo.resolve(existingArticle.getVideoUrl().substring(existingArticle.getVideoUrl().lastIndexOf("/") + 1));
+                Files.deleteIfExists(previousVideoPathSource);
+                Files.deleteIfExists(previousVideoPathTarget);
+            }
+
+            // Set new video URL
+            articleDto.setVideoUrl("/videos/" + videoFilename);
+
+            // Save new video file
+            Files.copy(video.getInputStream(), sourceUploadDirectoryVideo.resolve(videoFilename));
+            Files.copy(video.getInputStream(), targetUploadDirectoryVideo.resolve(videoFilename));
+        } else {
+            // Keep the existing video URL if not updated
+            if (existingArticle != null) {
+                articleDto.setVideoUrl(existingArticle.getVideoUrl());
+            }
+        }
+
         articleService.updateArticle(articleDto);
-
         return "redirect:/admin/article";
-    }
-
-    @GetMapping("/admin/article/remove/{id}")
+    }    @GetMapping("/admin/article/remove/{id}")
     public String removeArticle(@ModelAttribute @PathVariable Long id){
         articleService.removeArticle(id);
         return "redirect:/admin/article";
@@ -158,6 +229,7 @@ public class ArticleController {
 //        return "dashboard/article/detail";
         return "dashboard/article/detail";
     }
+
 
 
 }

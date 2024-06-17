@@ -13,6 +13,7 @@ public class ArticleDto {
     private Long id;
     private String title;//*
     private String photoUrl;
+    private String videoUrl;
     private Date createdDate;
     private Date updatedDate;
     private int viewCount;

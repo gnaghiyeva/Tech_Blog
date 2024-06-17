@@ -11,6 +11,7 @@ public class ArticleUpdateDto {
     private String subTitle;//*
     private String description;//*
     private String photoUrl;//*
+    private String videoUrl;
     private Long categoryId;
     private Long userId;
 }

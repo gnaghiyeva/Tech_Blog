@@ -114,6 +114,7 @@ public class ArticleServiceImpl implements ArticleService {
         findArticle.setDescription(articleDto.getDescription());
         findArticle.setUpdatedDate(new Date());
         findArticle.setPhotoUrl(articleDto.getPhotoUrl());
+        findArticle.setVideoUrl(articleDto.getVideoUrl());
         findArticle.setCategory(category);
         findArticle.setUser(user);
         SeoHelper seoHelper = new SeoHelper();
