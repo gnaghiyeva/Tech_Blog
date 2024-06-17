@@ -156,7 +156,7 @@ public class ArticleController {
         ArticleDetailDto articleDetail = articleService.articleDetail(id);
         model.addAttribute("article",articleDetail);
 //        return "dashboard/article/detail";
-        return "detail";
+        return "dashboard/article/detail";
     }
 
 
