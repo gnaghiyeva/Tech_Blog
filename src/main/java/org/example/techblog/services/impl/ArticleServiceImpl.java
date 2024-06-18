@@ -1,12 +1,15 @@
 package org.example.techblog.services.impl;
 
 import org.example.techblog.dtos.articledtos.*;
+import org.example.techblog.dtos.commentdtos.CommentDto;
 import org.example.techblog.helpers.SeoHelper;
 import org.example.techblog.models.Article;
 import org.example.techblog.models.Category;
+import org.example.techblog.models.Comment;
 import org.example.techblog.models.UserEntity;
 import org.example.techblog.repositories.ArticleRepository;
 import org.example.techblog.repositories.CategoryRepository;
+import org.example.techblog.repositories.CommentRepository;
 import org.example.techblog.repositories.UserRepository;
 import org.example.techblog.services.ArticleService;
 import org.modelmapper.ModelMapper;
@@ -33,6 +36,10 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
+
 
     @Override
 //    public void addArticle(ArticleCreateDto articleDto) {
@@ -173,11 +180,25 @@ public class ArticleServiceImpl implements ArticleService {
         return articleDtoList;
     }
 
+//    @Override
+//    public ArticleDetailDto articleDetail(Long id) {
+//        Article article = articleRepository.findById(id).orElseThrow();
+//        ArticleDetailDto articleUpdateDto = modelMapper.map(article, ArticleDetailDto.class);
+//        return articleUpdateDto;
+//    }
+
     @Override
     public ArticleDetailDto articleDetail(Long id) {
         Article article = articleRepository.findById(id).orElseThrow();
-        ArticleDetailDto articleUpdateDto = modelMapper.map(article, ArticleDetailDto.class);
-        return articleUpdateDto;
+        ArticleDetailDto articleDetailDto = modelMapper.map(article, ArticleDetailDto.class);
+
+        List<Comment> comments = commentRepository.findByArticleId(id);
+        List<CommentDto> commentDtos = comments.stream()
+                .map(comment -> modelMapper.map(comment,CommentDto.class))
+                .collect(Collectors.toList());
+        articleDetailDto.setComments(commentDtos);
+
+        return articleDetailDto;
     }
 //@Override
 //public List<ArticleHomeDto> getHomeArticles() {
