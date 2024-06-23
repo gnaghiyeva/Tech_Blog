@@ -1,6 +1,8 @@
 package org.example.techblog.controllers;
 
 import org.example.techblog.dtos.articledtos.ArticleHomeDto;
+import org.example.techblog.dtos.categorydtos.CategoryDto;
+import org.example.techblog.dtos.categorydtos.CategoryHomeDto;
 import org.example.techblog.services.ArticleService;
 import org.example.techblog.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,9 @@ public class HomeController {
     public String index(Model model)
     {
         List<ArticleHomeDto> homeArticles =  articleService.getHomeArticles();
+//        List<CategoryDto> homeCategories =  categoryService.getAllCategories();
         model.addAttribute("articles",homeArticles);
+//        model.addAttribute("categories",homeCategories);
         return "home";
     }
 
