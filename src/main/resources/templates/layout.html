@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org" lang="en">
 
 <!-- Basic -->
-<head>
+<head th:fragment="header">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -49,7 +49,7 @@
 
 </head>
 
-<header th:replace="fragments/navbar"></header>
+<header th:replace="~{fragments/navbar}"></header>
 <body layout:fragment="body">
 ssss
 </body>
@@ -60,7 +60,7 @@ ssss
             <div class="col-lg-7">
                 <div class="widget">
                     <div class="footer-text text-left">
-                        <a href="index.html"><img src="images/version/tech-footer-logo.png" alt=""
+                        <a href="index.html"><img src="/images/version/tech-footer-logo.png" alt=""
                                                   class="img-fluid"></a>
                         <p>Tech Blog is a technology blog, we sharing marketing, news and gadget articles.</p>
                         <div class="social">

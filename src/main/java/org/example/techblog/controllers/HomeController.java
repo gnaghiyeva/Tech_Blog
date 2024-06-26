@@ -20,12 +20,11 @@ public class HomeController {
     private CategoryService categoryService; // 123
 
     @GetMapping("/")
-    public String index(Model model)
-    {
-        List<ArticleHomeDto> homeArticles =  articleService.getHomeArticles();
-//        List<CategoryDto> homeCategories =  categoryService.getAllCategories();
-        model.addAttribute("articles",homeArticles);
-//        model.addAttribute("categories",homeCategories);
+    public String index(Model model) {
+        List<ArticleHomeDto> homeArticles = articleService.getHomeArticles();
+        List<CategoryDto> homeCategories = categoryService.getAllCategories();
+        model.addAttribute("articles", homeArticles);
+        model.addAttribute("categories", homeCategories);
         return "home";
     }
 
