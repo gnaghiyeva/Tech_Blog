@@ -80,14 +80,15 @@ public class ArticleController {
     }
 
     @PostMapping("/admin/article/create")
-    public String articleCreate(@ModelAttribute ArticleCreateDto articleDto, @RequestParam("image") MultipartFile image,   @RequestParam("video") MultipartFile video) throws IOException {
+    public String articleCreate(@ModelAttribute ArticleCreateDto articleDto,
+                                @RequestParam("image") MultipartFile image,
+                                @RequestParam(value = "video", required = false) MultipartFile video) throws IOException {
 
         Path sourceUploadDirectoryImage = getSourceUploadDirectoryImage();
         Path targetUploadDirectoryImage = getTargetUploadDirectoryImage();
 
-        Path sourceUploadDirectoryVideo =getSourceUploadDirectoryVideo();
+        Path sourceUploadDirectoryVideo = getSourceUploadDirectoryVideo();
         Path targetUploadDirectoryVideo = getTargetUploadDirectoryVideo();
-
 
         if (!Files.exists(sourceUploadDirectoryImage)) {
             Files.createDirectories(sourceUploadDirectoryImage);
@@ -107,19 +108,27 @@ public class ArticleController {
 
         UUID rand = UUID.randomUUID();
 
-        String imagefilename = rand + image.getOriginalFilename();
-        String videoFilename = rand + video.getOriginalFilename();
+        String imageFilename = rand + image.getOriginalFilename();
+        String videoFilename = null; // Initialize videoFilename as null initially
 
-        articleDto.setPhotoUrl("/uploads/" + imagefilename);
-        articleDto.setVideoUrl("/videos/" + videoFilename);
+        if (video != null && !video.isEmpty()) {
+            videoFilename = rand + video.getOriginalFilename();
+            articleDto.setVideoUrl("/videos/" + videoFilename);
 
-        // Save to source directory
-        Files.copy(image.getInputStream(), sourceUploadDirectoryImage.resolve(imagefilename));
-        Files.copy(video.getInputStream(), sourceUploadDirectoryVideo.resolve(videoFilename));
+            // Save to source directory
+            Files.copy(video.getInputStream(), sourceUploadDirectoryVideo.resolve(videoFilename));
 
-        // Save to target directory
-        Files.copy(image.getInputStream(), targetUploadDirectoryImage.resolve(imagefilename));
-        Files.copy(video.getInputStream(), targetUploadDirectoryVideo.resolve(videoFilename));
+            // Save to target directory
+            Files.copy(video.getInputStream(), targetUploadDirectoryVideo.resolve(videoFilename));
+        } else {
+            articleDto.setVideoUrl(null); // Set videoUrl to null if video is empty
+        }
+
+        articleDto.setPhotoUrl("/uploads/" + imageFilename);
+
+        // Save image to source and target directories
+        Files.copy(image.getInputStream(), sourceUploadDirectoryImage.resolve(imageFilename));
+        Files.copy(image.getInputStream(), targetUploadDirectoryImage.resolve(imageFilename));
 
         articleService.addArticle(articleDto);
         return "redirect:/admin/article";
