@@ -137,6 +137,7 @@ public class ArticleServiceImpl implements ArticleService {
         return articleUpdateDto;
     }
 
+
     @Override
     public ArticleDto getArticleById(Long id) {
         Article article = articleRepository.findById(id)
@@ -182,6 +183,17 @@ public class ArticleServiceImpl implements ArticleService {
         return articleDtoList;
     }
 
+    @Override
+    public List<ArticleHomeDto> getMostView() {
+        List<ArticleHomeDto> articleDtoList = articleRepository.findAll().stream()
+                .filter(x -> !x.getIsDeleted())
+                .sorted((a1, a2) -> Integer.compare(a2.getViewCount(), a1.getViewCount())) // Görüntülenme sayısına göre sırala
+                .limit(5) // En çok izlenen 5 makaleyi al
+                .map(article -> modelMapper.map(article, ArticleHomeDto.class))
+                .collect(Collectors.toList());
+        return articleDtoList;
+    }
+
 //    @Override
 //    public ArticleDetailDto articleDetail(Long id) {
 //        Article article = articleRepository.findById(id).orElseThrow();
@@ -189,20 +201,28 @@ public class ArticleServiceImpl implements ArticleService {
 //        return articleUpdateDto;
 //    }
 
+
+
     @Override
     public ArticleDetailDto articleDetail(Long id) {
-        Article article = articleRepository.findById(id).orElseThrow();
+        Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Article not found with id: " + id));
+
+        // View count'u artır
+        article.setViewCount(article.getViewCount() + 1);
+
+        // Değişikliği veritabanına kaydet
+        articleRepository.save(article);
+
         ArticleDetailDto articleDetailDto = modelMapper.map(article, ArticleDetailDto.class);
 
         List<Comment> comments = commentRepository.findByArticleId(id);
         List<CommentDto> commentDtos = comments.stream()
-                .map(comment -> modelMapper.map(comment,CommentDto.class))
+                .map(comment -> modelMapper.map(comment, CommentDto.class))
                 .collect(Collectors.toList());
         articleDetailDto.setComments(commentDtos);
 
         return articleDetailDto;
     }
-
 //@Override
 //public List<ArticleHomeDto> getHomeArticles() {
 //    List<ArticleHomeDto> articleDtoList = articleRepository.findAll().stream()

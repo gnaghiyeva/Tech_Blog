@@ -15,5 +15,8 @@ public interface ArticleService {
     ArticleDto getArticleById(Long id);
     void removeArticle(Long articleId);
     List<ArticleHomeDto> getHomeArticles();
+
+    List<ArticleHomeDto> getMostView();
+
     ArticleDetailDto articleDetail(Long id);
 }

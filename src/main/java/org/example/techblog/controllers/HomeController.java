@@ -23,8 +23,10 @@ public class HomeController {
     public String index(Model model) {
         List<ArticleHomeDto> homeArticles = articleService.getHomeArticles();
         List<CategoryDto> homeCategories = categoryService.getAllCategories();
+        List<ArticleHomeDto> mostViews = articleService.getMostView();
         model.addAttribute("articles", homeArticles);
         model.addAttribute("categories", homeCategories);
+        model.addAttribute("mostViews", mostViews);
         return "home";
     }
 

@@ -1,14 +1,15 @@
 package org.example.techblog.controllers;
 
-import org.example.techblog.dtos.articledtos.ArticleCreateDto;
-import org.example.techblog.dtos.articledtos.ArticleDetailDto;
-import org.example.techblog.dtos.articledtos.ArticleDto;
-import org.example.techblog.dtos.articledtos.ArticleUpdateDto;
+import jakarta.servlet.http.HttpSession;
+import org.example.techblog.dtos.articledtos.*;
 import org.example.techblog.dtos.categorydtos.CategoryDto;
 import org.example.techblog.dtos.userdtos.UserDto;
+import org.example.techblog.models.Article;
+import org.example.techblog.repositories.ArticleRepository;
 import org.example.techblog.services.ArticleService;
 import org.example.techblog.services.CategoryService;
 import org.example.techblog.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -20,8 +21,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 @Controller
 public class ArticleController {
 
@@ -33,6 +38,13 @@ public class ArticleController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ArticleRepository articleRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
 
     @Value("${image.upload-dir}")
     private String uploadDirImage;
