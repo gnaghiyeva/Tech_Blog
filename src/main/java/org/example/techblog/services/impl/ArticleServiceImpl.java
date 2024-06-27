@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -174,7 +175,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<ArticleHomeDto> getHomeArticles() {
         List<ArticleHomeDto> articleDtoList = articleRepository.findAll().stream()
-                .filter(x->x.getIsDeleted() == false)
+                .filter(x -> !x.getIsDeleted())
+                .sorted(Comparator.comparing(Article::getCreatedDate).reversed())
                 .map(article -> modelMapper.map(article, ArticleHomeDto.class))
                 .collect(Collectors.toList());
         return articleDtoList;
