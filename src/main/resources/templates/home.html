@@ -8,7 +8,29 @@
 <body>
 <main>
   <section layout:fragment="body">
-      
+      <section class="section first-section">
+          <div class="container-fluid" >
+              <div class="masonry-blog clearfix" >
+                  <div class="second-slot" th:each="article, iterStat : ${articles}">
+                      <div class="masonry-box post-media" th:if="${iterStat.index > 1 && iterStat.index < 6}" >
+                          <img th:src="${article.photoUrl}" alt="" class="img-fluid">
+                          <div class="shadoweffect" >
+                              <div class="shadow-desc">
+                                  <div class="blog-meta">
+                                      <span class="bg-orange"><a href="tech-category-01.html" title="" th:text="${article.category.name}">Technology</a></span>
+                                      <h4><a th:href="'/detail/'+${article.id}+'/'+ ${article.seoUrl}" title="">Say hello to real handmade office furniture! Clean & beautiful design</a></h4>
+                                      <small><a th:text="${#dates.format(article.createdDate, 'dd MMMM, yyyy')}" title="">24 July, 2017</a></small>
+                                      <small><a th:text="${article.user.firstname}" title="">by Amanda</a></small>
+                                  </div><!-- end meta -->
+                              </div><!-- end shadow-desc -->
+                          </div><!-- end shadow -->
+                      </div><!-- end post-media -->
+                  </div><!-- end first-side -->
+
+
+              </div><!-- end masonry -->
+          </div>
+      </section>
       <section class="section">
           <div class="container">
               <div class="row">
