@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class FooterController {
@@ -20,8 +22,18 @@ public class FooterController {
 
     @ModelAttribute("footerItems")
     public List<CategoryDto> getFooterItems() {
-        return  categoryService.getAllCategories();
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        List<ArticleDto> articles = articleService.getArticles();
 
+
+        Map<Long, Long> articleCountByCategory = articles.stream()
+                .collect(Collectors.groupingBy(article -> article.getCategory().getId(), Collectors.counting()));
+
+        categories.forEach(category ->
+                category.setArticleCount(articleCountByCategory.getOrDefault(category.getId(), 0L))
+        );
+
+        return categories;
     }
 
     @ModelAttribute("articleItems")

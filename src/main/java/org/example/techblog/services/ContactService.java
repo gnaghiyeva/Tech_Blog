@@ -10,5 +10,4 @@ public interface ContactService {
     void add(ContactCreateDto ContactCreateDto);
 
     List<ContactDto> getAllContact();
-
 }

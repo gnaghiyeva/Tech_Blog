@@ -42,10 +42,10 @@
 
                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                     <div class="widget">
-                        <h2 class="widget-title">Popular Categories</h2>
+                        <h2 class="widget-title">Categories</h2>
                         <div class="link-widget">
                             <ul th:each="category : ${footerItems}">
-                                <li><a href="#" th:text="${category.name}">Marketing <span >(21)</span></a></li>
+                                <li><a href="#" th:text="${category.name}">Marketing </a> <span th:text="'(' + ${category.articleCount} + ')'">(21)</span></li>
 <!--                                <li><a href="#">SEO Service <span>(15)</span></a></li>-->
 <!--                                <li><a href="#">Digital Agency <span>(31)</span></a></li>-->
 <!--                                <li><a href="#">Make Money <span>(22)</span></a></li>-->
