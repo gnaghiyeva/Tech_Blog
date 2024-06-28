@@ -1,14 +1,14 @@
 package org.example.techblog.controllers;
 
+import org.example.techblog.dtos.articledtos.ArticleHomeDto;
 import org.example.techblog.dtos.categorydtos.CategoryCreateDto;
 import org.example.techblog.dtos.categorydtos.CategoryDto;
+import org.example.techblog.dtos.contactdtos.ContactDto;
 import org.example.techblog.dtos.roledtos.RoleDto;
 import org.example.techblog.dtos.userdtos.UserAddRoleDto;
 import org.example.techblog.dtos.userdtos.UserDashboardListDto;
 import org.example.techblog.dtos.userdtos.UserDto;
-import org.example.techblog.services.CategoryService;
-import org.example.techblog.services.RoleService;
-import org.example.techblog.services.UserService;
+import org.example.techblog.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +26,35 @@ public class DashboardController {
 
     @Autowired
     private RoleService roleService;
-    @GetMapping("/admin")
-    public String index() {
 
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private ArticleService articleService;
+    @Autowired
+    private ContactService contactService;
+    @GetMapping("/admin")
+    public String index(Model model) {
+        List<CategoryDto> homeCategories = categoryService.getAllCategories();
+        List<ArticleHomeDto> homeArticles = articleService.getHomeArticles();
+        model.addAttribute("categories", homeCategories);
+        model.addAttribute("articles", homeArticles);
+
+        long countCategories = homeCategories.stream().count();
+        model.addAttribute("countCategories", countCategories);
+
+        long countArticles = homeArticles.stream().count();
+        model.addAttribute("countArticles", countArticles);
+
+        long countUsers = userService.countUsers();
+        model.addAttribute("userCount", countUsers);
+
+        List<ContactDto> recentContacts = contactService.getRecentEnter();
+        model.addAttribute("recentContacts", recentContacts);
+
+        List<ContactDto> contacts = contactService.getAllContact();
+        model.addAttribute("contacts", contacts);
         return "/dashboard/home";
     }
 
@@ -61,6 +87,7 @@ public class DashboardController {
         model.addAttribute("users",userList);
         return "/dashboard/admin-info";
     }
+
 
 
 }

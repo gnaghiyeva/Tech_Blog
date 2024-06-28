@@ -11,9 +11,9 @@
     <div>
         <a href="/admin/category/category-create" class="btn btn-primary btn-sm">Create</a>
     </div>
-    <table class="table  table-bordered table-striped w-50 ">
+    <table class="table  table-bordered table-striped w-70 ">
         <thead>
-        <tr>
+        <tr style="text-align: center">
             <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Action</th>
@@ -21,10 +21,10 @@
         </tr>
         </thead>
         <tbody >
-        <tr th:each="category : ${categories}">
+        <tr th:each="category : ${categories}" style="text-align: center">
             <th th:text="${category.id}"></th>
             <td th:text="${category.name}"></td>
-            <td>
+            <td >
                 <a th:href="'/admin/category/update/'+${category.id}" class="btn btn-outline-warning btn-sm">Update</a>
                 <button th:onclick="'remove('+${category.id}+')'" class="btn btn-outline-danger btn-sm">Delete</button>
             </td>

@@ -84,9 +84,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<ArticleDto> getArticles() {
         List<ArticleDto> articleDtoList = articleRepository.findAll().stream()
-                .filter(article -> !article.getIsDeleted()) // Sadece isDeleted false olanları filtrele
+                .filter(article -> !article.getIsDeleted())
                 .map(article -> modelMapper.map(article, ArticleDto.class))
                 .collect(Collectors.toList());
+
+        long countArticles = articleDtoList.size();
         return articleDtoList;
     }
 

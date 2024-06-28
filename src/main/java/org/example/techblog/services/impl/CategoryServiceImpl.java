@@ -39,6 +39,8 @@ public class CategoryServiceImpl implements CategoryService {
                 .filter(x->x.getIsDeleted()==false)
                 .map(category -> modelMapper.map(category, CategoryDto.class))
                 .collect(Collectors.toList());
+
+        long countCategories = categoryDtoList.size();
         return categoryDtoList;
     }
 

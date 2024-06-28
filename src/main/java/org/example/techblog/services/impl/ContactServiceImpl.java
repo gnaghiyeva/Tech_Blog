@@ -1,5 +1,6 @@
 package org.example.techblog.services.impl;
 
+import org.example.techblog.dtos.articledtos.ArticleHomeDto;
 import org.example.techblog.dtos.contactdtos.ContactCreateDto;
 import org.example.techblog.dtos.contactdtos.ContactDto;
 import org.example.techblog.models.Contact;
@@ -80,4 +81,15 @@ public class ContactServiceImpl implements ContactService {
         }
         return false;
     }
+
+    @Override
+    public List<ContactDto> getRecentEnter() {
+        List<ContactDto> contactList = contactRepository.findAll().stream()
+                .sorted((a1, a2) -> a2.getSendDate().compareTo(a1.getSendDate())) // Compare dates correctly
+                .limit(5) // Limit to the most recent 5 entries
+                .map(contact -> modelMapper.map(contact, ContactDto.class))
+                .collect(Collectors.toList());
+        return contactList;
+    }
+
 }

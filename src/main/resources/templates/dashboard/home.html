@@ -4,12 +4,201 @@
         layout:decorate="~{/dashboard/layout}">
 <head>
     <title>Home </title>
+
 </head>
 
 <body>
 <div layout:fragment="container" class="container-fluid">
-    <h1>Salam</h1>
+    <div class="container-fluid py-4">
+        <div class="row mt-3">
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4" >
+                <div class="card" style="height: 170px">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Articles</p>
+                                    <h5 class="font-weight-bolder" th:text="${countArticles}">
+                                        $53,000
+                                    </h5>
+                                    <p class="mb-0">
+
+                                        "Knowledge is power."
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card" style="height: 170px">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Users</p>
+                                    <h5 class="font-weight-bolder" th:text="${userCount}">
+                                        2,300
+                                    </h5>
+                                    <p class="mb-0">
+                                        Good design starts with the user in mind.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card" style="height: 170px">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Categories</p>
+                                    <h5 class="font-weight-bolder" th:text="${countCategories}">
+                                        +3,462
+                                    </h5>
+                                    <p class="mb-0">
+
+                                        Categories are the shelves of the mind.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+                                    <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-7 mb-lg-0 mb-4">
+                <div class="card z-index-2 h-100">
+                    <div class="card-header pb-0 pt-3 bg-transparent">
+                        <h6 class="text-capitalize">Overview</h6>
+                        <p class="text-sm mb-0">
+                            <i class="fa fa-arrow-up text-success"></i>
+
+                        </p>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="chart">
+                            <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div th:each="article, iterStat : ${articles}" class="carousel-item" th:classappend="${iterStat.index == 0} ? 'active' : ''">
+                            <img th:src="${article.photoUrl}" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5 th:text="${article.title}">Başlık</h5>
+                                <p th:text="${article.subTitle}">Açıklama</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Carousel controls -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Önceki</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Sonraki</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-7 mb-lg-0 mb-4">
+                <div class="card ">
+                    <div class="card-header pb-0 p-3">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-2">Contacting Users</h6>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center ">
+                            <tbody>
+                            <tr th:each="contact:${recentContacts}">
+                                <td class="w-30">
+                                    <div class="d-flex px-2 py-1 align-items-center">
+                                        <div class="ms-4">
+                                            <p class="text-xs font-weight-bold mb-0">Full Name:</p>
+                                            <h6 class="text-sm mb-0" th:text="${contact.fullName}">United States</h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">Email:</p>
+                                        <h6 class="text-sm mb-0" th:text="${contact.email}">2500</h6>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">Phone:</p>
+                                        <h6 class="text-sm mb-0" th:text="${contact.phone}">$230,900</h6>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <div class="col-lg-5 mt-3">
+            <div class="card">
+                <div class="card-header pb-0 p-3">
+                    <h6 class="mb-0">Categories</h6>
+                </div>
+                <div class="card-body p-3">
+                    <ul class="list-group">
+                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg" th:each="category : ${footerItems}">
+                            <div class="d-flex align-items-center" >
+                                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                    <i class="ni ni-mobile-button text-white opacity-10"></i>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <h6 class="mb-1 text-dark text-sm" th:text="${category.name}">Devices</h6>
+                                    <span class="text-xs" th:text="${category.articleCount} + ' article in this category'">250 in stock, <span class="font-weight-bold">346+ sold</span></span>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i class="ni ni-bold-right" aria-hidden="true"></i></button>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 </html>

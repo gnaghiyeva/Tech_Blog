@@ -97,6 +97,10 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
         return userDtoList;
     }
+
+    public long countUsers() {
+        return userRepository.count();
+    }
 }
 
 

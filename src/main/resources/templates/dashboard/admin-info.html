@@ -9,14 +9,16 @@
 <body>
 <div layout:fragment="container" class="container-fluid mt-5">
     <div class="card shadow-lg mx-2 card-profile-top">
-        <div class="card-body p-3">
+        <div class="card-body p-3" th:each="user : ${users}">
             <div class="row gx-4">
-                <div class="col-auto">
-                    <div class="avatar avatar-xl position-relative">
+                <div class="col-auto" >
+                    <div th:each="role : ${user.roles}">
+                    <div class="avatar avatar-xl position-relative" th:if="${role.name == 'ADMIN'}">
                         <img th:src="@{/admin/img/team-5.jpg}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
                     </div>
+                    </div>
                 </div>
-                <div class="col-auto my-auto" th:each="user : ${users}">
+                <div class="col-auto my-auto" >
                     <div class="h-100" th:each="role : ${user.roles}">
                         <div class="h-100" th:if="${role.name == 'ADMIN'}">
                             <h5 class="mb-1" th:text="${user.firstname + ' ' + user.lastname}"></h5>

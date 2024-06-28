@@ -18,4 +18,6 @@ public interface UserService {
     UserDto getUserById(Long id);
     void addRole(UserAddRoleDto userAddRole);
     List<UserDto> getAllUsers();
+
+    long countUsers();
 }

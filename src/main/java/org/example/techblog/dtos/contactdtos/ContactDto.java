@@ -13,5 +13,5 @@ public class ContactDto {
     private String phone;
     private String subject;
     private String message;
-//    private Date sendDate;
+    private Date sendDate;
 }
