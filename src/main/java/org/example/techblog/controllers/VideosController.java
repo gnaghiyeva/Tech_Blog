@@ -21,8 +21,15 @@ public class VideosController {
     public String videos(Model model){
         List<ArticleHomeDto> homeArticles = articleService.getHomeArticles();
         List<CategoryDto> homeCategories = categoryService.getAllCategories();
+        List<ArticleHomeDto> mostViews = articleService.getMostView();
+        List<ArticleHomeDto> mostViewVideos = articleService.getMostViewVideo();
+        List<ArticleHomeDto> recentViewArticles = articleService.recentViewedArticles();
+
         model.addAttribute("articles", homeArticles);
         model.addAttribute("categories", homeCategories);
+        model.addAttribute("mostViews", mostViews);
+        model.addAttribute("mostViewVideos", mostViewVideos);
+        model.addAttribute("recentViewArticles", recentViewArticles);
         return "videos";
     }
 }
