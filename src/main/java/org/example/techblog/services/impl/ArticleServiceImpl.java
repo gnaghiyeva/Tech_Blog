@@ -225,6 +225,28 @@ public class ArticleServiceImpl implements ArticleService {
 
         return articleDetailDto;
     }
+
+    @Override
+    public List<ArticleHomeDto> getMostViewVideo() {
+        List<ArticleHomeDto> articleDtoList = articleRepository.findAll().stream()
+                .filter(x -> !x.getIsDeleted() && x.getVideoUrl() != null && !x.getVideoUrl().isEmpty())
+                .sorted((a1, a2) -> Integer.compare(a2.getViewCount(), a1.getViewCount()))
+                .limit(3)
+                .map(article -> modelMapper.map(article, ArticleHomeDto.class))
+                .collect(Collectors.toList());
+        return articleDtoList;
+    }
+
+    @Override
+    public List<ArticleHomeDto> recentViewedArticles() {
+        List<ArticleHomeDto> articleDtoList = articleRepository.findAll().stream()
+                .filter(x -> !x.getIsDeleted())
+                .sorted(Comparator.comparingInt(Article::getViewCount).reversed()) // Görüntülenme sayısına görə azalan sırayla sırala
+                .limit(3) // En çox izlenen 5 makaleyi al
+                .map(article -> modelMapper.map(article, ArticleHomeDto.class))
+                .collect(Collectors.toList());
+        return articleDtoList;
+    }
 //@Override
 //public List<ArticleHomeDto> getHomeArticles() {
 //    List<ArticleHomeDto> articleDtoList = articleRepository.findAll().stream()

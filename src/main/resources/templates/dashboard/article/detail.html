@@ -61,9 +61,10 @@
                             <div class="single-post-media" style="text-align: center" >
                                 <img th:src="${article.photoUrl}" alt="" class="img-fluid" style="height: 400px; width: auto;">
                             </div><!-- end media -->
-                            <div class="single-post-media" style="text-align: center" >
-                                <video th:src="${article.videoUrl}" alt="" class="img-fluid"  controls="controls" style="height: 700px; width: auto;" ></video>
+                            <div class="single-post-media" style="text-align: center" th:if="${article.videoUrl != null && !article.videoUrl.isEmpty()}">
+                                <video th:src="${article.videoUrl}" alt="" class="img-fluid" controls="controls" style="height: 700px; width: auto;"></video>
                             </div>
+
                             <div class="blog-content">
                                 <div class="pp" th:utext="${article.description}">
 

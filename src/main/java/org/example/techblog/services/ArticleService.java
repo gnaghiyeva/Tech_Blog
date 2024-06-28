@@ -19,4 +19,9 @@ public interface ArticleService {
     List<ArticleHomeDto> getMostView();
 
     ArticleDetailDto articleDetail(Long id);
+
+    List<ArticleHomeDto> getMostViewVideo();
+
+    List<ArticleHomeDto> recentViewedArticles();
+
 }
