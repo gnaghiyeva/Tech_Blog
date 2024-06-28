@@ -54,10 +54,10 @@
                                             </div><!-- end post-sharing -->
                                             <h4><a th:href="'/detail/'+${article.id}+'/'+ ${article.seoUrl}" title="" th:text="${article.title}"></a></h4>
                                             <p th:text="${article.subTitle}">Aenean interdum arcu blandit, vehicula magna non, placerat elit. Mauris et pharetratortor. Suspendissea sodales urna. In at augue elit. Vivamus enimcerat elicerat eli nibh, maximus ac felis nec, maximus tempor odio.</p>
-                                            <small><a href="tech-category.html" title="">Videos</a></small>
-                                            <small><a href="tech-single.html" title="" th:text="${#dates.format(article.createdDate, 'dd MMMM, yyyy')}">18 July, 2017</a></small>
-                                            <small><a href="tech-author.html" title="" th:text="By+ ' '+ ${article.user.firstname}">by Amanda</a></small>
-                                            <small><a href="#" title="" th:text="${article.viewCount}"><i class="fa fa-eye"></i> 2344</a></small>
+                                            <small><a  title="">Videos</a></small>
+                                            <small><a  title="" th:text="${#dates.format(article.createdDate, 'dd MMMM, yyyy')}">18 July, 2017</a></small>
+                                            <small><a  title="" th:text="By+ ' '+ ${article.user.firstname}">by Amanda</a></small>
+                                            <small><a href="#" title="" th:text="${article.viewCount}">2344</a><i class="fa fa-eye"></i> </small>
                                         </div><!-- end meta -->
                                     </div><!-- end blog-box -->
 
@@ -69,20 +69,7 @@
 
                             <hr class="invis">
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <nav aria-label="Page navigation">
-                                        <ul class="pagination justify-content-center">
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#">Next</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div><!-- end col -->
-                            </div><!-- end row -->
+
                         </div><!-- end col -->
 
                         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
@@ -139,7 +126,7 @@
                                     <h2 class="widget-title">Recent Reviews</h2>
                                     <div class="blog-list-widget">
                                         <div class="list-group" th:each="view : ${recentViewArticles}">
-                                            <a href="tech-single.html" class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <a  class="list-group-item list-group-item-action flex-column align-items-start">
                                                 <div class="w-100 justify-content-between">
                                                     <img th:src="${view.photoUrl}" alt="" class="img-fluid float-left">
                                                     <h5 class="mb-1" th:text="${view.title}">Banana-chip chocolate cake recipe..</h5>

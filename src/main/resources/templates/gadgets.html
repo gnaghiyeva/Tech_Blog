@@ -36,7 +36,7 @@
                                 <div class="widget">
                                     <div class="banner-spot clearfix">
                                         <div class="banner-img">
-                                            <img src="upload/banner_07.jpg" alt="" class="img-fluid">
+                                            <img src="/upload/banner_07.jpg" alt="" class="img-fluid">
                                         </div><!-- end banner-img -->
                                     </div><!-- end banner -->
                                 </div><!-- end widget -->
@@ -54,7 +54,7 @@
                                                 </a>
                                             </div><!-- end media -->
                                             <div class="blog-meta">
-                                                <h4><a href="tech-single.html" title="" th:text="${viewvideo.title}">We prepared the best 10 laptop presentations for you</a></h4>
+                                                <h4><a th:href="'/detail/'+${viewvideo.id}+'/'+ ${viewvideo.seoUrl}" title="" th:text="${viewvideo.title}">We prepared the best 10 laptop presentations for you</a></h4>
                                             </div><!-- end meta -->
                                         </div><!-- end blog-box -->
 
@@ -86,7 +86,7 @@
                                     <h2 class="widget-title">Recent Reviews</h2>
                                     <div class="blog-list-widget">
                                         <div class="list-group" th:each="view : ${recentViewArticles}">
-                                            <a href="tech-single.html" class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <a th:href="'/detail/'+${view.id}+'/'+ ${view.seoUrl}" class="list-group-item list-group-item-action flex-column align-items-start">
                                                 <div class="w-100 justify-content-between">
                                                     <img th:src="${view.photoUrl}" alt="" class="img-fluid float-left">
                                                     <h5 class="mb-1" th:text="${view.title}">Banana-chip chocolate cake recipe..</h5>
@@ -133,24 +133,18 @@
                                     </div>
                                 </div><!-- end widget -->
 
-                                <div class="widget">
-                                    <div class="banner-spot clearfix">
-                                        <div class="banner-img">
-                                            <img src="upload/banner_03.jpg" alt="" class="img-fluid">
-                                        </div><!-- end banner-img -->
-                                    </div><!-- end banner -->
-                                </div><!-- end widget -->
+
                             </div><!-- end sidebar -->
                         </div><!-- end col -->
 
                         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                             <div class="page-wrapper" >
                                 <div class="blog-grid-system">
-                                    <div class="row" >
-                                        <div class="col-md-6" th:each="article : ${articles}"  >
-                                            <div class="blog-box" th:if="${article.category.name == 'Gadgets'}">
+                                    <div class="row">
+                                        <div class="col-md-6" th:each="article : ${articles}" th:if="${article.category.name == 'Gadgets'}">
+                                            <div class="blog-box" >
                                                 <div class="post-media">
-                                                    <a href="tech-single.html" title="">
+                                                    <a th:href="'/detail/'+${article.id}+'/'+${article.seoUrl}" title="">
                                                         <img th:src="${article.photoUrl}" alt="" class="img-fluid">
                                                         <div class="hovereffect">
                                                             <span></span>
@@ -158,37 +152,22 @@
                                                     </a>
                                                 </div><!-- end media -->
                                                 <div class="blog-meta big-meta">
-                                                    <span class="color-orange"><a href="tech-category-01.html" title="" th:text="${article.category.name}"></a></span>
-                                                    <h4><a href="tech-single.html" title="" th:text="${article.title}"></a></h4>
+                                                    <span class="color-orange"><a title="" th:text="${article.category.name}"></a></span>
+                                                    <h4><a th:href="'/detail/'+${article.id}+'/'+${article.seoUrl}" title="" th:text="${article.title}"></a></h4>
                                                     <p th:text="${article.subTitle}"></p>
-                                                    <small><a href="tech-single.html" title="" th:text="${#dates.format(article.createdDate, 'dd MMMM, yyyy')}">14 July, 2017</a></small>
-                                                    <small><a href="tech-author.html" title="" th:text="By+ ' '+ ${article.user.firstname}">by Jack</a></small>
-                                                    <small><a href="#" title="" th:text="${article.viewCount}"><i class="fa fa-eye"></i> 2344</a></small>
+                                                    <small><a title="" th:text="${#dates.format(article.createdDate, 'dd MMMM, yyyy')}">14 July, 2017</a></small>
+                                                    <small><a title="" th:text="By+ ' '+ ${article.user.firstname}">by Jack</a></small>
+                                                    <small><a href="#" title="" th:text="${article.viewCount}">2344</a><i class="fa fa-eye"></i> </small>
                                                 </div><!-- end meta -->
                                             </div><!-- end blog-box -->
                                         </div><!-- end col -->
-
-
                                     </div><!-- end row -->
                                 </div><!-- end blog-grid-system -->
                             </div><!-- end page-wrapper -->
 
                             <hr class="invis3">
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <nav aria-label="Page navigation">
-                                        <ul class="pagination justify-content-start">
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#">Next</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div><!-- end col -->
-                            </div><!-- end row -->
+
                         </div><!-- end col -->
                     </div><!-- end row -->
                 </div><!-- end container -->

@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
         newUser.setEmailConfirmed(false);
         newUser.setConfirmationToken(token);
         newUser.setPassword(hashPassword);
+        newUser.setIsDeleted(false);
         userRepository.save(newUser);
         emailService.sendConfirmationEmail(register.getEmail(), token);
         return true;

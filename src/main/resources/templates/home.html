@@ -17,8 +17,8 @@
                           <div class="shadoweffect" >
                               <div class="shadow-desc">
                                   <div class="blog-meta">
-                                      <span class="bg-orange"><a href="tech-category-01.html" title="" th:text="${article.category.name}">Technology</a></span>
-                                      <h4><a th:href="'/detail/'+${article.id}+'/'+ ${article.seoUrl}" title="">Say hello to real handmade office furniture! Clean & beautiful design</a></h4>
+                                      <span class="bg-orange"><a th:href="'/detail/'+${article.id}+'/'+ ${article.seoUrl}"  title="" th:text="${article.category.name}">Technology</a></span>
+                                      <h4><a th:href="'/detail/'+${article.id}+'/'+ ${article.seoUrl}" title="" th:text="${article.title}">Say hello to real handmade office furniture! Clean & beautiful design</a></h4>
                                       <small><a th:text="${#dates.format(article.createdDate, 'dd MMMM, yyyy')}" title="">24 July, 2017</a></small>
                                       <small><a th:text="${article.user.firstname}" title="">by Amanda</a></small>
                                   </div><!-- end meta -->
@@ -44,7 +44,7 @@
                               <div class="blog-box row"  >
                                   <div class="col-md-4">
                                       <div class="post-media">
-                                          <a href="tech-single.html" title="">
+                                          <a th:href="'/detail/'+${article.id}+'/'+ ${article.seoUrl}" title="">
                                               <img alt="" class="img-fluid" th:src="${article.photoUrl}" >
                                               <div class="hovereffect"></div>
                                           </a>
@@ -54,10 +54,10 @@
                                   <div class="blog-meta big-meta col-md-8">
                                       <h4><a th:href="'/detail/'+${article.id}+'/'+ ${article.seoUrl}" title="" th:text="${article.title}"></a></h4>
                                       <p th:text="${article.subTitle}"></p>
-                                      <small class="firstsmall"><a class="bg-orange" href="tech-category-01.html" title="" th:text="${article.category.name}"></a></small>
-                                      <small><a href="tech-single.html" title="" th:text="${#dates.format(article.createdDate, 'dd MMMM, yyyy')}"></a></small>
-                                      <small><a href="tech-author.html" title="" th:text="${article.user.firstname}"></a></small>
-                                      <small><a href="tech-single.html" title="" th:text="${article.viewCount}"><i class="fa fa-eye"></i></a></small>
+                                      <small class="firstsmall"><a class="bg-orange"  title="" th:text="${article.category.name}"></a></small>
+                                      <small><a  title="" th:text="${#dates.format(article.createdDate, 'dd MMMM, yyyy')}"></a></small>
+                                      <small><a  title="" th:text="${article.user.firstname}"></a></small>
+                                      <small><a  title="" th:text="${article.viewCount}"></a><i class="fa fa-eye"></i></small>
                                   </div><!-- end meta -->
                               </div><!-- end blog-box -->
 
@@ -68,20 +68,7 @@
 
                       <hr class="invis">
 
-                      <div class="row">
-                          <div class="col-md-12">
-                              <nav aria-label="Page navigation">
-                                  <ul class="pagination justify-content-start">
-                                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                      <li class="page-item">
-                                          <a class="page-link" href="#">Next</a>
-                                      </li>
-                                  </ul>
-                              </nav>
-                          </div><!-- end col -->
-                      </div><!-- end row -->
+
                   </div><!-- end col -->
 
                   <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
